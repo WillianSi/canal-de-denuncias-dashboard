@@ -26,14 +26,8 @@ import {
   Col,
 } from "reactstrap";
 
-var ps;
-
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
-  // verifica se routeName é o ativo (na entrada do navegador)
-  const activeRoute = (routeName) => {
-    return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
-  };
   // alterna o colapse entre aberto e fechado (verdadeiro/falso)
   const toggleCollapse = () => {
     setCollapseOpen((data) => !data);

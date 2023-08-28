@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, Route, Routes, Navigate } from "react-router-dom";
+import { useLocation} from "react-router-dom";
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
@@ -14,18 +14,6 @@ const CommonLayout = ({ children, ...props }) => {
     document.scrollingElement.scrollTop = 0;
     mainContent.current.scrollTop = 0;
   }, [location]);
-
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
-        return (
-          <Route path={prop.path} element={prop.component} key={key} exact />
-        );
-      } else {
-        return null;
-      }
-    });
-  };
 
   const getBrandText = (path) => {
     for (let i = 0; i < routes.length; i++) {
