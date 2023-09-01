@@ -159,6 +159,7 @@ const Sidebar = (props) => {
                 aria-label="Search"
                 className="form-control-rounded form-control-prepended"
                 placeholder="Pesquisar"
+                id="search"
                 type="search"
               />
               <InputGroupAddon addonType="prepend">
