@@ -9,7 +9,6 @@ import "assets/scss/argon-dashboard-react.scss";
 import AdminLayout from "layouts/Admin.js";
 import AuthLayout from "layouts/Auth.js";
 import SeeMore from "views/examples/SeeMore.js";
-import FromQuestions from "views/examples/FromQuestions.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -19,7 +18,6 @@ root.render(
       <Route path="/admin/*" element={<AdminLayout />} />
       <Route path="/auth/*" element={<AuthLayout />} />
       <Route path="/admin/SeeMore" element={<SeeMore />} />
-      <Route path="/admin/fromquestions" element={<FromQuestions />} />
       <Route path="*" element={<Navigate to="/admin/index" replace />} />
     </Routes>
   </BrowserRouter>

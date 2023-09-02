@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
@@ -36,14 +36,14 @@ const CommonLayout = ({ children, ...props }) => {
           innerLink: "/admin/index",
           imgSrc: require("../assets/img/brand/MZZI-logo-big.png"),
           imgAlt: "...",
-        }} 
+        }}
       />
       <div className="main-content" ref={mainContent}>
         <AdminNavbar
           {...props}
           brandText={getBrandText(props?.location?.pathname)}
         />
-{children}
+        {children}
       </div>
     </>
   );

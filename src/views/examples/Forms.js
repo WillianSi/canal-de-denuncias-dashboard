@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import Chart from "chart.js";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import { Button, Card, CardHeader, Table, Container, Row } from "reactstrap";
@@ -7,11 +7,24 @@ import { Button, Card, CardHeader, Table, Container, Row } from "reactstrap";
 import { chartOptions, parseOptions } from "variables/charts.js";
 
 import Header from "components/Headers/Header.js";
+import FromQuestions from "./FromQuestions.js";
+import ExcluirQuestion from "./ExcluirQuestion.js";
 
 const Forms = (props) => {
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
   }
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isExcluirModalOpen, setIsExcluirModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const toggleExcluirModal = () => {
+    setIsExcluirModalOpen(!isExcluirModalOpen);
+  };
 
   return (
     <>
@@ -24,9 +37,11 @@ const Forms = (props) => {
             <Card className="shadow">
               <CardHeader className="border-0 d-flex justify-content-between align-items-center">
                 <h3 className="mb-0">Formulário</h3>
-                <Link to="/admin/fromQuestions">
-                  <Button color="info">Adicionar Pregunta +</Button>
-                </Link>
+                {/* Botão para abrir o modal */}
+                <Button color="info" onClick={toggleModal}>
+                  Adicionar Pregunta +
+                </Button>
+                <FromQuestions isOpen={isModalOpen} onClose={toggleModal} />
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="text-center thead-light">
@@ -45,7 +60,7 @@ const Forms = (props) => {
                       <Button
                         color="default"
                         href="#pablo"
-                        onClick={(e) => e.preventDefault()}
+                        onClick={toggleModal}
                         size="sm"
                         className="bg-transparent border-0"
                       >
@@ -56,7 +71,7 @@ const Forms = (props) => {
                       <Button
                         color="default"
                         href="#pablo"
-                        onClick={(e) => e.preventDefault()}
+                        onClick={toggleExcluirModal}
                         size="sm"
                         className="bg-transparent border-0"
                       >
@@ -64,6 +79,7 @@ const Forms = (props) => {
                           style={{ color: "#525f7f", fontSize: "15px" }}
                         />
                       </Button>
+                      <ExcluirQuestion isOpen={isExcluirModalOpen} toggle={toggleExcluirModal}/>
                     </td>
                   </tr>
                 </tbody>
