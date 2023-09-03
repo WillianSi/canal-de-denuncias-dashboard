@@ -7,18 +7,25 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/scss/argon-dashboard-react.scss";
 
 import AdminLayout from "layouts/Admin.js";
-import AuthLayout from "layouts/Auth.js";
 import SeeMore from "views/examples/SeeMore.js";
+import Login from "views/login/Login.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <BrowserRouter>
     <Routes>
+      {/* Rota para a página de login como rota raiz */}
+      <Route path="/auth/Login" element={<Login />} />
+      
+      {/* Rota para o layout de admin */}
       <Route path="/admin/*" element={<AdminLayout />} />
-      <Route path="/auth/*" element={<AuthLayout />} />
+      
+      {/* Rota para a página "SeeMore" no layout de admin */}
       <Route path="/admin/SeeMore" element={<SeeMore />} />
-      <Route path="*" element={<Navigate to="/admin/index" replace />} />
+      
+      {/* Rota padrão redireciona para a página de login */}
+      <Route path="*" element={<Navigate to="/auth/Login" replace />} />
     </Routes>
   </BrowserRouter>
 );

@@ -2,7 +2,6 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-
 import routes from "routes.js";
 
 const CommonLayout = ({ children, ...props }) => {

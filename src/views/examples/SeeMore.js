@@ -1,4 +1,6 @@
 import React from "react";
+import Header from "components/Headers/Header.js";
+import CommonLayout from "layouts/CommonLayout.js";
 import {
   Button,
   Card,
@@ -10,10 +12,8 @@ import {
   Col,
   Table,
 } from "reactstrap";
-import Header from "components/Headers/Header.js";
-import CommonLayout from "layouts/CommonLayout.js";
 
-const SeeMore = (props) => {
+const SeeMore = () => {
   return (
     <CommonLayout>
       <Header />
