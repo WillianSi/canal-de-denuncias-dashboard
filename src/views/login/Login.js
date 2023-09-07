@@ -1,7 +1,8 @@
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { auth } from "services/firebaseConfig";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import Auth from "layouts/Auth.js";
-import { useState, useEffect } from 'react';
-import { auth } from 'services/firebaseConfig';
 import AdminLayout from "layouts/Admin.js";
 import {
   Alert,
@@ -20,48 +21,62 @@ import {
 } from "reactstrap";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [
-    signInWithEmailAndPassword,
-    user,
-    error,
-  ] = useSignInWithEmailAndPassword(auth);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
 
-  const isFormValid = email.length >= 6 && password.length >= 6;
+  const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i;
+  const isFormValid = password.length >= 6 && emailPattern.test(email);
+
+  const [showPassword, setShowPassword] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [alertColor, setAlertColor] = useState("");
+  const [alertTitle, setAlertTitle] = useState("");
+
+  const showErrorMessage = (message) => {
+    setErrorMessage(message);
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSignIn = (e) => {
     e.preventDefault();
-    
+
     if (isFormValid) {
       signInWithEmailAndPassword(email, password);
-    } else {
-      setErrorMessage('E-mail ou senha incorretos.');
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
+    }  else {
+      setAlertColor("danger");
+      setAlertTitle("Erro!");
+      showErrorMessage("Por favor, insira um email válido e uma senha com pelo menos 6 caracteres.");
     }
   };
 
   useEffect(() => {
-    return () => {
-      clearTimeout();
-    };
-  }, []);
+    if (error) {
+      setAlertColor("danger");
+      setAlertTitle("Erro!");
+      showErrorMessage("E-mail ou senha incorretos.");
+    }
+  }, [error]);
 
-  if (error) {
-    return (
-      <Login />
-    );
-  }
+  useEffect(() => {
+    if (loading) {
+      setAlertColor("info");
+      setAlertTitle("Aguarde:");
+      showErrorMessage("Conectando...");
+    }
+  }, [loading]);
 
   if (user) {
-    return (
-      <AdminLayout />
-    );
+    return <AdminLayout />;
   }
 
   return (
@@ -74,8 +89,8 @@ const Login = () => {
                 <h1 className="text-muted">Bem-vindo(a)!</h1>
                 <p className="text-muted">Faça login para continuar!</p>
                 {showAlert && (
-                  <Alert color="danger">
-                    <strong>Erro!</strong> {errorMessage}
+                  <Alert color={alertColor}>
+                    <strong>{alertTitle}</strong> {errorMessage}
                   </Alert>
                 )}
               </div>
@@ -101,19 +116,29 @@ const Login = () => {
                   <InputGroup className="input-group-alternative">
                     <InputGroupAddon addonType="prepend">
                       <InputGroupText>
-                        <i className="ni ni-lock-circle-open" />
+                        <i
+                          className="ni ni-lock-circle-open"
+                          onClick={togglePasswordVisibility}
+                          style={{ cursor: "pointer" }}
+                        />
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input
                       placeholder="Senha"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       autoComplete="new-password"
+                      value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </InputGroup>
                 </FormGroup>
                 <div className="text-center">
-                  <Button className="my-3" color="primary" type="button" onClick={handleSignIn}>
+                  <Button
+                    className="my-3"
+                    color="primary"
+                    type="button"
+                    onClick={handleSignIn}
+                  >
                     Entrar
                   </Button>
                 </div>
@@ -122,22 +147,14 @@ const Login = () => {
           </Card>
           <Row className="mt-3">
             <Col xs="6">
-              <a
-                className="text-light"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
+              <Link to="/reset" className="text-light">
                 <small>Esqueceu sua senha?</small>
-              </a>
+              </Link>
             </Col>
             <Col className="text-right" xs="6">
-              <a
-                className="text-light"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
+              <Link to="/register" className="text-light">
                 <small>Criar nova conta</small>
-              </a>
+              </Link>
             </Col>
           </Row>
         </Col>

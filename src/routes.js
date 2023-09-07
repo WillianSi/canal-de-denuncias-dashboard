@@ -2,6 +2,7 @@ import Index from "views/Index.js";
 import Profile from "views/examples/Profile.js";
 import Companies from "views/examples/Companies.js";
 import Forms from "views/examples/Forms.js";
+import Logout from "views/login/Logout.js";
 
 var routes = [
   {
@@ -33,10 +34,10 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/settings",
+    path: "/logout",
     name: "Sair",
     icon: "ni ni-user-run text-blue",
-    component: <Profile />,
+    component: <Logout />,
     layout: "/admin",
   }
 ];
