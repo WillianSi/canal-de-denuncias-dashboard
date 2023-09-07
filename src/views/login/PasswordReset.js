@@ -45,8 +45,9 @@ const PasswordReset = () => {
       sendPasswordResetEmail(auth, email)
         .then(() => {
           setAlertColor("info");
-          setAlertTitle("Erro!");
+          setAlertTitle("Sucesso!");
           showErrorMessage("Verifique seu e-mail para obter instruções de redefinição de senha.");
+          setEmail("");
         })
         .catch(() => {
           setAlertColor("danger");
