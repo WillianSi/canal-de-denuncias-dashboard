@@ -1,5 +1,5 @@
 import Index from "views/Index.js";
-import Profile from "views/examples/Profile.js";
+import Profile from "views/profile/Profile.js";
 import Companies from "views/examples/Companies.js";
 import Forms from "views/examples/Forms.js";
 import Logout from "views/login/Logout.js";

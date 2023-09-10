@@ -140,7 +140,7 @@ const Register = () => {
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input
-                      placeholder="Confirmar senha"
+                      placeholder="Senha"
                       type={showPassword ? "text" : "password"}
                       autoComplete="new-password"
                       value={confirmPassword}
