@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "services/firebaseConfig";
+import { updatePassword, updateEmail } from "firebase/auth";
+import AuthenticatedLayout from "services/AuthenticatedLayout";
+import Header from "components/Headers/Header.js";
 import {
   Button,
   Card,
@@ -15,11 +20,6 @@ import {
   InputGroupText,
   InputGroup,
 } from "reactstrap";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "services/firebaseConfig";
-import { updatePassword, updateEmail } from "firebase/auth";
-import AuthenticatedLayout from "services/AuthenticatedLayout";
-import Header from "components/Headers/Header.js";
 
 const Profile = () => {
   const [user] = useAuthState(auth);
@@ -33,6 +33,7 @@ const Profile = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [alertColor, setAlertColor] = useState("");
   const [alertTitle, setAlertTitle] = useState("");
+  const [oldEmail, setOldEmail] = useState("");
 
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -106,8 +107,6 @@ const Profile = () => {
       }
     }
   };
-
-  const [oldEmail, setOldEmail] = useState("");
 
   useEffect(() => {
     if (user) {
