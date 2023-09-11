@@ -19,6 +19,7 @@ import Header from "components/Headers/Header.js";
 import { useUpdateEmail, useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "services/firebaseConfig";
 import { useEffect, useState } from "react";
+import AuthenticatedLayout from "services/AuthenticatedLayout.js";
 
 const Profile = () => {
 
@@ -115,6 +116,7 @@ const Profile = () => {
 
   return (
     <>
+    <AuthenticatedLayout>
       <Header />
       <Container className="mt--7" fluid>
         <Row>
@@ -254,6 +256,7 @@ const Profile = () => {
           </Col>
         </Row>
       </Container>
+      </AuthenticatedLayout>
     </>
   );
 };

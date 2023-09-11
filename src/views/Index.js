@@ -13,6 +13,7 @@ import {
 
 // core components
 import { chartOptions, parseOptions } from "variables/charts.js";
+import AuthenticatedLayout from "services/AuthenticatedLayout.js";
 
 import Header from "components/Headers/HeaderHome.js";
 
@@ -23,6 +24,7 @@ const Index = (props) => {
 
   return (
     <>
+    <AuthenticatedLayout>
       <Header />
       {/* Page content */}
       <Container className="mt--7" fluid>
@@ -76,6 +78,7 @@ const Index = (props) => {
           </div>
         </Row>
       </Container>
+      </AuthenticatedLayout>
     </>
   );
 };
