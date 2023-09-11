@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Card,
@@ -14,29 +15,26 @@ import {
   InputGroupText,
   InputGroup,
 } from "reactstrap";
-// core components
-import Header from "components/Headers/Header.js";
-import { useUpdateEmail, useAuthState } from "react-firebase-hooks/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "services/firebaseConfig";
-import { useEffect, useState } from "react";
-import AuthenticatedLayout from "services/AuthenticatedLayout.js";
+import { updatePassword, updateEmail } from "firebase/auth";
+import AuthenticatedLayout from "services/AuthenticatedLayout";
+import Header from "components/Headers/Header.js";
 
 const Profile = () => {
+  const [user] = useAuthState(auth);
 
-  const [email, setEmail] = useState('');
-  const [updateEmail, updating, error] = useUpdateEmail(auth);
-
+  const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const isFormValid = newPassword.length >= 6;
-  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
   const [showPassword, setShowPassword] = useState(false);
+
   const [showAlert, setShowAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [alertColor, setAlertColor] = useState("");
   const [alertTitle, setAlertTitle] = useState("");
+
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const showErrorMessage = (message) => {
     setErrorMessage(message);
@@ -61,21 +59,15 @@ const Profile = () => {
       setAlertColor("danger");
       setAlertTitle("Erro!");
       showErrorMessage("Por favor, insira um email válido.");
-    }  else {
+    } else {
       try {
-        // Tenta atualizar o email usando a função updateEmail
-        const success = await updateEmail(email);
+        await updateEmail(user, email);
+        setEmail("");
+        setErrorMessage(null);
 
-        if (success) {
-          setAlertColor("success");
-          setAlertTitle("Sucesso!");
-          showErrorMessage("Email alterado com sucesso.");
-        } else {
-          console.error("Erro ao atualizar o email: atualização mal-sucedida");
-          setAlertColor("danger");
-          setAlertTitle("Erro!");
-          showErrorMessage("Erro ao atualizar o email 3433.");
-        }
+        setAlertColor("success");
+        setAlertTitle("Sucesso!");
+        showErrorMessage("Email alterado com sucesso.");
       } catch (error) {
         setAlertColor("danger");
         setAlertTitle("Erro!");
@@ -84,29 +76,38 @@ const Profile = () => {
     }
   };
 
-  const handlePassword = (e) => {
+  const handlePassword = async (e) => {
     e.preventDefault();
 
-    if (isFormValid) {
-      if (newPassword === confirmPassword) {
-        setShowPassword("");
-        setConfirmPassword("");
-      } else {
-        setAlertColor("danger");
-        setAlertTitle("Erro!");
-        showErrorMessage("As senhas não coincidem.");
-      }
-    } else {
+    if (newPassword.length < 6) {
       setAlertColor("danger");
       setAlertTitle("Erro!");
       showErrorMessage(
         "Por favor, insira uma senha com pelo menos 6 caracteres."
       );
+    } else if (newPassword !== confirmPassword) {
+      setAlertColor("danger");
+      setAlertTitle("Erro!");
+      showErrorMessage("As senhas não coincidem.");
+    } else {
+      try {
+        await updatePassword(user, newPassword);
+        setNewPassword("");
+        setConfirmPassword("");
+        setErrorMessage(null);
+
+        setAlertColor("success");
+        setAlertTitle("Sucesso!");
+        showErrorMessage("Senha alterada com sucesso.");
+      } catch (error) {
+        setAlertColor("danger");
+        setAlertTitle("Erro!");
+        showErrorMessage(error.message);
+      }
     }
   };
 
   const [oldEmail, setOldEmail] = useState("");
-  const [user] = useAuthState(auth);
 
   useEffect(() => {
     if (user) {
