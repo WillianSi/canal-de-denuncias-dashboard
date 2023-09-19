@@ -3,8 +3,11 @@ import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // biblioteca nodejs para definir propriedades para componentes
 import { PropTypes } from "prop-types";
 
+import Logout from '../../views/login/Logout.js';
+
 // reactstrap componentes
 import {
+  Button,
   Collapse,
   DropdownMenu,
   DropdownItem,
@@ -52,6 +55,12 @@ const Sidebar = (props) => {
         </NavItem>
       );
     });
+  };
+
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const toggleLogoutModal = () => {
+    setIsLogoutModalOpen(!isLogoutModalOpen);
   };
 
   const { routes, logo } = props;
@@ -170,10 +179,23 @@ const Sidebar = (props) => {
             </InputGroup>
           </Form>
           {/* Navegação */}
-          <Nav navbar>{createLinks(routes)}</Nav>
+          <Nav navbar>
+          {createLinks(routes)}
+          <NavItem key="logout" className="mx-5 mt-3">
+            <Button
+              className="btn btn-link border"
+              onClick={toggleLogoutModal}
+            >
+              <i className="ni ni-user-run mr-2" />
+              Sair
+            </Button>
+          </NavItem>
+        </Nav>
 
         </Collapse>
       </Container>
+      {/* Renderize o componente Logout dentro do Sidebar */}
+      <Logout isOpen={isLogoutModalOpen} toggle={toggleLogoutModal} />
     </Navbar>
   );
 };

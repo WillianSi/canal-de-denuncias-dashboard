@@ -1,18 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Button } from "reactstrap";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link, useHistory } from "react-router-dom";
 
 const Logout = (props) => {
-  // Modify the function to handle the logout action
-  const handleLogout = () => {
-    // Add your logout logic here
-    // After logout, you can redirect the user to the login page
-    // using the Link component or useHistory hook
-  };
+  const { isOpen, toggle } = props;
 
   return (
     <Modal
-      isOpen={props.isOpen}
+      isOpen={isOpen} // Use a prop isOpen para controlar a visibilidade
       className="modal-dialog-centered modal-danger"
       contentClassName="bg-gradient-danger"
     >
@@ -22,7 +17,7 @@ const Logout = (props) => {
           className="close"
           data-dismiss="modal"
           type="button"
-          onClick={props.toggle}
+          onClick={toggle} // Use a função toggle para fechar o modal
         >
           <span aria-hidden={true}>×</span>
         </button>
@@ -36,7 +31,7 @@ const Logout = (props) => {
       </div>
       <div className="modal-footer">
         <Link to="/logout">
-          <Button className="btn-white" color="default" type="button" onClick={handleLogout}>
+          <Button className="btn-white" color="default" type="button">
             Sim
           </Button>
         </Link>
@@ -45,7 +40,7 @@ const Logout = (props) => {
           color="default"
           data-dismiss="modal"
           type="button"
-          onClick={props.toggle}
+          onClick={toggle} // Use a função toggle para fechar o modal
         >
           Não
         </Button>

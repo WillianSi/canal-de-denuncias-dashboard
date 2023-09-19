@@ -32,13 +32,6 @@ var routes = [
     icon: "ni ni-single-02 text-blue",
     component: <Profile />,
     layout: "/admin",
-  },
-  {
-    path: "/logout",
-    name: "Sair",
-    icon: "ni ni-user-run text-blue",
-    component: <Logout />,
-    layout: "/admin",
   }
 ];
 export default routes;
