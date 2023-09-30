@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, Button } from "reactstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { auth } from "services/firebaseConfig";
 
 const Logout = (props) => {
   const { isOpen, toggle } = props;
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut(); // Faz logout usando o Firebase
+    } catch (error) {
+      console.error("Erro ao fazer logout: ", error);
+    }
+  };
 
   return (
     <Modal
@@ -31,7 +40,7 @@ const Logout = (props) => {
       </div>
       <div className="modal-footer">
         <Link to="/logout">
-          <Button className="btn-white" color="default" type="button">
+          <Button className="btn-white" color="default" type="button" onClick={handleLogout}>
             Sim
           </Button>
         </Link>
