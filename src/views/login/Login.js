@@ -151,11 +151,6 @@ const Login = () => {
                 <small>Esqueceu sua senha?</small>
               </Link>
             </Col>
-            <Col className="text-right" xs="6">
-              <Link to="/register" className="text-light">
-                <small>Criar nova conta</small>
-              </Link>
-            </Col>
           </Row>
         </Col>
       </Auth>

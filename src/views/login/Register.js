@@ -20,7 +20,6 @@ import {
 } from "reactstrap";
 
 const Register = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [createUserWithEmailAndPassword, user, loading, error] =
@@ -65,7 +64,8 @@ const Register = () => {
     } else {
       setAlertColor("danger");
       setAlertTitle("Erro!");
-      showErrorMessage("Por favor, insira um email válido e uma senha com pelo menos 6 caracteres."
+      showErrorMessage(
+        "Por favor, insira um email válido e uma senha com pelo menos 6 caracteres."
       );
     }
   };
@@ -187,8 +187,8 @@ const Register = () => {
               </Link>
             </Col>
             <Col className="text-right" xs="6">
-              <Link to="/" className="text-light">
-                <small>Já possui uma conta</small>
+              <Link to="/admin/*" className="text-light">
+                <small>Home</small>
               </Link>
             </Col>
           </Row>
