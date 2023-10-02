@@ -26,7 +26,7 @@ root.render(
       {/* Rota para o layout de admin */}
       <Route path="/admin/*" element={<AdminLayout />} />
       {/* Rota para a página "SeeMore" no layout de admin */}
-      <Route path="/admin/SeeMore" element={<SeeMore />} />
+      <Route path="/admin/SeeMore/:id" element={<SeeMore />} />
       {/* Rota padrão redireciona para a página de login */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

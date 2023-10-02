@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Chart from "chart.js";
 import { BsChevronCompactRight } from "react-icons/bs";
@@ -10,6 +11,13 @@ import {
   Container,
   Row,
 } from "reactstrap";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  onSnapshot,
+} from "firebase/firestore";
+import { app } from "services/firebaseConfig.js";
 
 // core components
 import { chartOptions, parseOptions } from "variables/charts.js";
@@ -18,9 +26,53 @@ import AuthenticatedLayout from "services/AuthenticatedLayout.js";
 import Header from "components/Headers/HeaderHome.js";
 
 const Index = (props) => {
+
+  const [questions, setQuestions] = useState([]);
+
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
   }
+
+  const fetchFirestoreData = async () => {
+    try {
+      const db = getFirestore(app);
+      const querySnapshot = await getDocs(collection(db, "incident"));
+      const questionsData = [];
+      querySnapshot.forEach((doc) => {
+        const questionData = {
+          id: doc.id,
+          ...doc.data(),
+        };
+        questionsData.push(questionData);
+      });
+      setQuestions(questionsData);
+    } catch (error) {
+      console.error("Erro ao buscar dados do Firestore: ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFirestoreData();
+  }, []);
+
+  useEffect(() => {
+    const db = getFirestore(app);
+    const unsubscribe = onSnapshot(collection(db, "incident"), (snapshot) => {
+      const questionsData = [];
+      snapshot.forEach((doc) => {
+        const questionData = {
+          id: doc.id,
+          ...doc.data(),
+        };
+        questionsData.push(questionData);
+      });
+      setQuestions(questionsData);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <>
@@ -55,23 +107,39 @@ const Index = (props) => {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  <tr>
-                    <td>0</td>
-                    <td>0</td>
-                    <td className="align-middle text-center">
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-warning" />
-                        Aguardando
-                      </Badge>
-                    </td>
-                    <td className="text-center align-middle">
-                      <Link to="/admin/seemore">
-                        <Button color="default" size="sm">
-                          Veja mais +
-                        </Button>
-                      </Link>
-                    </td>
-                  </tr>
+                {questions.map((question) => (
+                    <tr key={question.id}>
+                      <td>{question.referencia}</td>
+                      <td>{question.data_criacao}</td>
+                      <td className="align-middle text-center">
+                        {question.status === 0 && (
+                          <Badge color="" className="badge-dot mr-4">
+                            <i className="bg-danger" />
+                            Aguardando
+                          </Badge>
+                        )}
+                        {question.status === 1 && (
+                          <Badge color="" className="badge-dot mr-4">
+                            <i className="bg-primary" />
+                            Analisando
+                          </Badge>
+                        )}
+                        {question.status === 2 && (
+                          <Badge color="" className="badge-dot mr-4">
+                            <i className="bg-success" />
+                            Finalizado
+                          </Badge>
+                        )}
+                      </td>
+                      <td className="text-center align-middle">
+                      <Link to={`/admin/SeeMore/${question.id}`}>
+                            <Button color="default" size="sm">
+                              Veja mais +
+                            </Button>
+                          </Link>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </Card>

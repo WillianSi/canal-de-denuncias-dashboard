@@ -1,6 +1,8 @@
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { BiFilterAlt } from "react-icons/bi";
 import Chart from "chart.js";
+import { chartOptions, parseOptions } from "variables/charts.js";
+import FilterButton from "./FilterButton.js";
 import {
   Button,
   Badge,
@@ -16,23 +18,78 @@ import {
   Input,
   InputGroup,
 } from "reactstrap";
-
-// core components
-import { chartOptions, parseOptions } from "variables/charts.js";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  onSnapshot,
+} from "firebase/firestore";
+import { app } from "services/firebaseConfig.js";
 
 import Header from "components/Headers/Header.js";
 
 const Companies = (props) => {
+  const [questions, setQuestions] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
+
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
   }
 
+  const fetchFirestoreData = async () => {
+    try {
+      const db = getFirestore(app);
+      const querySnapshot = await getDocs(collection(db, "incident"));
+      const questionsData = [];
+      querySnapshot.forEach((doc) => {
+        const questionData = {
+          id: doc.id,
+          ...doc.data(),
+        };
+        questionsData.push(questionData);
+      });
+      setQuestions(questionsData);
+    } catch (error) {
+      console.error("Erro ao buscar dados do Firestore: ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFirestoreData();
+  }, []);
+
+  useEffect(() => {
+    const db = getFirestore(app);
+    const unsubscribe = onSnapshot(collection(db, "incident"), (snapshot) => {
+      const questionsData = [];
+      snapshot.forEach((doc) => {
+        const questionData = {
+          id: doc.id,
+          ...doc.data(),
+        };
+        questionsData.push(questionData);
+      });
+      setQuestions(questionsData);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const handleStatusChange = (status) => {
+    setSelectedStatus(status);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
   return (
     <>
       <Header />
-      {/* Page content */}
       <Container className="mt--7" fluid>
-        {/* Table */}
         <Row>
           <div className="col">
             <Card className="shadow">
@@ -56,20 +113,15 @@ const Companies = (props) => {
                       </InputGroupAddon>
                       <Input
                         type="text"
-                        style={{ borderColor: "#11cdef", color: "black"}}
+                        style={{ borderColor: "#11cdef", color: "black" }}
                         className="placeholder-black"
+                        value={searchValue}
+                        onChange={handleSearchChange}
                       />
                     </InputGroup>
                   </FormGroup>
                 </Form>
-                <Button
-                  color="info"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Filtrar por Status{" "}
-                  <BiFilterAlt style={{ color: "#fff", fontSize: "18px" }} />
-                </Button>
+                <FilterButton handleStatusChange={handleStatusChange} />
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="text-center thead-light">
@@ -81,23 +133,58 @@ const Companies = (props) => {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  <tr>
-                    <td>0</td>
-                    <td>0</td>
-                    <td className="align-middle text-center">
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-warning" />
-                        Aguardando
-                      </Badge>
-                    </td>
-                    <td className="text-center align-middle">
-                      <Link to="/admin/SeeMore">
-                        <Button color="default" size="sm">
-                          Veja mais +
-                        </Button>
-                      </Link>
-                    </td>
-                  </tr>
+                  {questions
+                    .filter((question) => {
+                      const lowerCaseSearchValue = searchValue.toLowerCase();
+                      return (
+                        (selectedStatus === null ||
+                          question.status === selectedStatus) &&
+                        ((typeof question.referencia === "string" &&
+                          (question.referencia
+                            .toLowerCase()
+                            .includes(lowerCaseSearchValue) ||
+                            question.data_criacao
+                              .toLowerCase()
+                              .includes(lowerCaseSearchValue))) ||
+                          (typeof question.data_criacao === "string" &&
+                            question.data_criacao
+                              .toLowerCase()
+                              .includes(lowerCaseSearchValue)))
+                      );
+                    })
+                    .map((question) => (
+                      <tr key={question.id}>
+                        <td>{question.referencia}</td>
+                        <td>{question.data_criacao}</td>
+                        <td className="align-middle text-center">
+                          {question.status === 0 && (
+                            <Badge color="" className="badge-dot mr-4">
+                              <i className="bg-danger" />
+                              Aguardando
+                            </Badge>
+                          )}
+                          {question.status === 1 && (
+                            <Badge color="" className="badge-dot mr-4">
+                              <i className="bg-primary" />
+                              Analisando
+                            </Badge>
+                          )}
+                          {question.status === 2 && (
+                            <Badge color="" className="badge-dot mr-4">
+                              <i className="bg-success" />
+                              Finalizado
+                            </Badge>
+                          )}
+                        </td>
+                        <td className="text-center align-middle">
+                          <Link to={`/admin/SeeMore/${question.id}`}>
+                            <Button color="default" size="sm">
+                              Veja mais +
+                            </Button>
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </Table>
             </Card>

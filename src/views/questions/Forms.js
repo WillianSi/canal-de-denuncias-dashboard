@@ -20,15 +20,13 @@ import {
   getDocs,
   getFirestore,
   onSnapshot,
-  updateDoc,
-  doc,
 } from "firebase/firestore";
 import { app } from "services/firebaseConfig.js";
 
 const Forms = (props) => {
   const [questions, setQuestions] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [editModalOpen, setEditModalOpen] = useState(false); // Novo estado para o modal de edição
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [excluirModalOpen, setExcluirModalOpen] = useState(false);
   const [selectedQuestionId, setSelectedQuestionId] = useState(null);
@@ -144,8 +142,7 @@ const Forms = (props) => {
                       <td className="text-center align-middle">
                         <Button
                           color="default"
-                          href="#pablo"
-                          onClick={() => toggleEditModal(question)} // Alterado para abrir o modal de edição
+                          onClick={() => toggleEditModal(question)}
                           size="sm"
                           className="bg-transparent border-0"
                         >
@@ -155,7 +152,6 @@ const Forms = (props) => {
                         </Button>
                         <Button
                           color="default"
-                          href="#pablo"
                           onClick={() => {
                             toggleExcluirModal(question.id);
                           }}
@@ -181,10 +177,10 @@ const Forms = (props) => {
         question={selectedQuestion}
       />
       <FromQuestions
-        isOpen={editModalOpen} // Abrir o modal de edição
-        onClose={() => toggleEditModal(null)} // Fechar o modal de edição
+        isOpen={editModalOpen}
+        onClose={() => toggleEditModal(null)}
         question={selectedQuestion}
-        handleAlert={handleAlert} // Passar a função de alerta para o modal de edição
+        handleAlert={handleAlert}
       />
       <ExcluirQuestion
         isOpen={excluirModalOpen}
