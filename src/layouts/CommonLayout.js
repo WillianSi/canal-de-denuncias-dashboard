@@ -33,7 +33,7 @@ const CommonLayout = ({ children, ...props }) => {
         routes={routes}
         logo={{
           innerLink: "/admin/index",
-          imgSrc: require("../assets/img/brand/MZZI-logo-big.png"),
+          imgSrc: require("../assets/img/brand/logo.png"),
           imgAlt: "...",
         }}
       />

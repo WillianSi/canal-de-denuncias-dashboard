@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
-// biblioteca nodejs para definir propriedades para componentes
 import { PropTypes } from "prop-types";
-
 import Logout from '../../views/login/Logout.js';
-
-// reactstrap componentes
 import {
   Button,
   Collapse,
@@ -31,15 +27,12 @@ import {
 
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
-  // alterna o colapse entre aberto e fechado (verdadeiro/falso)
   const toggleCollapse = () => {
     setCollapseOpen((data) => !data);
   };
-  //fecha o colapse
   const closeCollapse = () => {
     setCollapseOpen(false);
   };
-  //cria os links que aparecem no menu esquerdo/barra lateral
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
       return (
@@ -84,7 +77,6 @@ const Sidebar = (props) => {
       id="sidenav-main"
     >
       <Container fluid>
-        {/* Toggler */}
         <button
           className="navbar-toggler"
           type="button"
@@ -92,7 +84,6 @@ const Sidebar = (props) => {
         >
           <span className="navbar-toggler-icon" />
         </button>
-        {/* Brand */}
         {logo ? (
           <NavbarBrand className="pt-0" {...navbarBrandProps}>
             <img
@@ -102,7 +93,6 @@ const Sidebar = (props) => {
             />
           </NavbarBrand>
         ) : null}
-        {/* User */}
         <Nav className="align-items-center d-md-none">
           <UncontrolledDropdown nav>
             <DropdownToggle nav>
@@ -110,7 +100,7 @@ const Sidebar = (props) => {
                 <span className="avatar avatar-sm rounded-circle">
                   <img
                     alt="..."
-                    src={require("../../assets/img/theme/MZZI-icon.jpeg")}
+                    src={require("../../assets/img/theme/logo.jpg")}
                   />
                 </span>
               </Media>
@@ -131,9 +121,7 @@ const Sidebar = (props) => {
             </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
-        {/* Collapse */}
         <Collapse navbar isOpen={collapseOpen}>
-          {/* Collapse header */}
           <div className="navbar-collapse-header d-md-none">
             <Row>
               {logo ? (
@@ -161,7 +149,6 @@ const Sidebar = (props) => {
               </Col>
             </Row>
           </div>
-          {/* Form */}
           <Form className="mt-4 mb-3 d-md-none">
             <InputGroup className="input-group-rounded input-group-merge">
               <Input
@@ -178,7 +165,6 @@ const Sidebar = (props) => {
               </InputGroupAddon>
             </InputGroup>
           </Form>
-          {/* Navegação */}
           <Nav navbar>
           {createLinks(routes)}
           <NavItem key="logout" className="mx-5 mt-3">
@@ -191,10 +177,8 @@ const Sidebar = (props) => {
             </Button>
           </NavItem>
         </Nav>
-
         </Collapse>
       </Container>
-      {/* Renderize o componente Logout dentro do Sidebar */}
       <Logout isOpen={isLogoutModalOpen} toggle={toggleLogoutModal} />
     </Navbar>
   );
@@ -205,7 +189,6 @@ Sidebar.defaultProps = {
 };
 
 Sidebar.propTypes = {
-  // links que serão exibidos dentro do componente
   routes: PropTypes.arrayOf(PropTypes.object),
   logo: PropTypes.shape({
     innerLink: PropTypes.string,
