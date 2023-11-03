@@ -27,6 +27,7 @@ import {
 import { app } from "services/firebaseConfig.js";
 
 import Header from "components/Headers/Header.js";
+import AuthenticatedLayout from "services/AuthenticatedLayout.js";
 
 const Companies = (props) => {
   const [questions, setQuestions] = useState([]);
@@ -88,6 +89,7 @@ const Companies = (props) => {
 
   return (
     <>
+    <AuthenticatedLayout>
       <Header />
       <Container className="mt--7" fluid>
         <Row>
@@ -191,6 +193,7 @@ const Companies = (props) => {
           </div>
         </Row>
       </Container>
+      </AuthenticatedLayout>
     </>
   );
 };

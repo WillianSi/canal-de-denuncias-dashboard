@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Input, FormGroup } from "reactstrap";
 import { getFirestore, doc, updateDoc, Timestamp } from "firebase/firestore";
+import AuthenticatedLayout from "services/AuthenticatedLayout.js";
 
 const AvaliarCaso = (props) => {
   const [status, setStatus] = useState("");
@@ -54,6 +55,7 @@ const AvaliarCaso = (props) => {
 
   return (
     <Modal isOpen={props.isOpen}>
+    <AuthenticatedLayout>
       <div className="modal-header">
         <h2 className="modal-title text-black">Avaliar</h2>
         <button className="close" onClick={props.onClose}>
@@ -102,6 +104,7 @@ const AvaliarCaso = (props) => {
           Fechar
         </Button>
       </div>
+      </AuthenticatedLayout>
     </Modal>
   );
 };

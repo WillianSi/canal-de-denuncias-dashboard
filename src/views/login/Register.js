@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { auth } from "services/firebaseConfig";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import Auth from "layouts/Auth.js";
+import AuthenticatedLayout from "services/AuthenticatedLayout.js";
 import {
   Alert,
   Button,
@@ -96,6 +97,7 @@ const Register = () => {
 
   return (
     <>
+    <AuthenticatedLayout>
       <Auth>
         <Col lg="5" md="7">
           <Card className="bg-secondary shadow border-0">
@@ -194,6 +196,7 @@ const Register = () => {
           </Row>
         </Col>
       </Auth>
+    </AuthenticatedLayout>
     </>
   );
 };

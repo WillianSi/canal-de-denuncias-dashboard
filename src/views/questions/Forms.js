@@ -22,6 +22,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { app } from "services/firebaseConfig.js";
+import AuthenticatedLayout from "services/AuthenticatedLayout.js";
 
 const Forms = (props) => {
   const [questions, setQuestions] = useState([]);
@@ -108,6 +109,7 @@ const Forms = (props) => {
 
   return (
     <>
+    <AuthenticatedLayout>
       <Header />
       <Container className="mt--7" fluid>
         <Row>
@@ -137,7 +139,7 @@ const Forms = (props) => {
                 <tbody className="text-center">
                   {questions.map((question, index) => (
                     <tr key={index}>
-                      <td>{question.titulo}</td>
+                      <td style={{ whiteSpace: 'normal', textJustify: 'inter-word'}}>{question.titulo}</td>
                       <td>{question.tipo}</td>
                       <td className="text-center align-middle">
                         <Button
@@ -188,6 +190,7 @@ const Forms = (props) => {
         questionId={selectedQuestionId}
         handleAlert={handleAlert}
       />
+      </AuthenticatedLayout>
     </>
   );
 };

@@ -8,6 +8,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { app } from "services/firebaseConfig.js";
+import AuthenticatedLayout from "services/AuthenticatedLayout.js";
 
 const FromQuestions = (props) => {
   const [titulo, setTitulo] = useState("");
@@ -99,6 +100,7 @@ const FromQuestions = (props) => {
 
   return (
     <Modal isOpen={props.isOpen}>
+      <AuthenticatedLayout>
       <div className="modal-header">
         <h2 className="modal-title text-black">
           {isEditing ? "Editar Pregunta" : "Adicionar Pregunta"}
@@ -170,6 +172,7 @@ const FromQuestions = (props) => {
           Fechar
         </Button>
       </div>
+      </AuthenticatedLayout>
     </Modal>
   );
 };

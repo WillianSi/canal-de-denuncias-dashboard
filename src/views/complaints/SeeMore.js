@@ -15,6 +15,7 @@ import {
   Table,
 } from "reactstrap";
 import AvaliarCaso from "./AvaliarCaso.js";
+import AuthenticatedLayout from "services/AuthenticatedLayout.js";
 
 const SeeMore = () => {
   const { id } = useParams();
@@ -46,14 +47,12 @@ const SeeMore = () => {
   const renderPerguntasERespostas = () => {
     const perguntas = incidentData?.pergunta || [];
     const respostas = incidentData?.resposta || [];
-
+  
     return perguntas.map((pergunta, index) => (
       <tr key={index}>
-        <td>{pergunta}</td>
-        <td className="text-center align-middle">
-          {respostas[index].startsWith(
-            "https://firebasestorage.googleapis.com"
-          ) ? (
+        <td style={{ whiteSpace: 'normal', textJustify: 'inter-word' }}>{pergunta}</td>
+        <td className="text-center align-middle" style={{ whiteSpace: 'normal', textJustify: 'inter-word' }}>
+          {respostas[index].startsWith("https://firebasestorage.googleapis.com") ? (
             <a
               href={respostas[index]}
               target="_blank"
@@ -63,7 +62,7 @@ const SeeMore = () => {
               Abrir arquivo
             </a>
           ) : (
-            respostas[index]
+            <span style={{ whiteSpace: 'normal', textAlign: 'justify', textJustify: 'inter-word' }}>{respostas[index]}</span>
           )}
         </td>
       </tr>
@@ -76,6 +75,7 @@ const SeeMore = () => {
 
   return (
     <CommonLayout>
+      <AuthenticatedLayout>
       <Header />
       <Container className="mt--7" fluid>
         <Row>
@@ -144,7 +144,7 @@ const SeeMore = () => {
                           className="form-control-label"
                           htmlFor="input-email"
                         >
-                          Finalizado:{" "}
+                          Dia:{" "}
                           {incidentData?.finalizado
                             ? incidentData.finalizado
                                 .toDate()
@@ -187,6 +187,7 @@ const SeeMore = () => {
           </Col>
         </Row>
       </Container>
+      </AuthenticatedLayout>
     </CommonLayout>
   );
 };

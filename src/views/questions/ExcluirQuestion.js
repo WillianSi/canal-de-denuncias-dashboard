@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, Button } from "reactstrap";
 import { app } from "services/firebaseConfig.js";
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
+import AuthenticatedLayout from "services/AuthenticatedLayout.js";
 
 const ExcluirQuestion = (props) => {
   const handleExcluir = () => {
@@ -30,6 +31,7 @@ const ExcluirQuestion = (props) => {
       className="modal-dialog-centered modal-danger"
       contentClassName="bg-gradient-danger"
     >
+      <AuthenticatedLayout>
       <div className="modal-header">
         <button
           aria-label="Close"
@@ -69,6 +71,7 @@ const ExcluirQuestion = (props) => {
           Não
         </Button>
       </div>
+      </AuthenticatedLayout>
     </Modal>
   );
 };
