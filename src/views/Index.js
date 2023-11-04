@@ -66,7 +66,10 @@ const Index = (props) => {
         };
         questionsData.push(questionData);
       });
-      setQuestions(questionsData);
+      questionsData.sort((a, b) => b.data_criacao - a.data_criacao);
+      const limitedQuestions = questionsData.slice(0, 5);
+
+      setQuestions(limitedQuestions);
     });
 
     return () => {
@@ -90,10 +93,11 @@ const Index = (props) => {
                   color="info"
                   href="#pablo"
                   onClick={(e) => e.preventDefault()}
+                  style={{ whiteSpace: "nowrap" }}
                 >
                   Acesse o Canal{" "}
                   <BsChevronCompactRight
-                    style={{ color: "#fff", fontSize: "15px" }}
+                    style={{ color: "#fff", fontSize: "13px" }}
                   />
                 </Button>
               </CardHeader>

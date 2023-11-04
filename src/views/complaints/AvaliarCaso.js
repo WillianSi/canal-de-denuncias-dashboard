@@ -75,7 +75,6 @@ const AvaliarCaso = (props) => {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="">Selecione uma opção</option>
               <option value="0">Aguardando</option>
               <option value="1">Analisando</option>
               <option value="2">Finalizado</option>

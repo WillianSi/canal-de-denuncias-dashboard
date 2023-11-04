@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 import { PropTypes } from "prop-types";
-import Logout from '../../views/login/Logout.js';
+import Logout from "../../views/login/Logout.js";
 import {
   Button,
   Collapse,
@@ -109,15 +109,11 @@ const Sidebar = (props) => {
               <DropdownItem className="noti-title" header tag="div">
                 <h6 className="text-overflow m-0">Bem-vindo(a)</h6>
               </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-settings-gear-65" />
-                <span>Configurações</span>
+              <DropdownItem tag={Link} to="/register">
+                <i className="ni ni-circle-08" />
+                <span>Criar conta</span>
               </DropdownItem>
               <DropdownItem divider />
-              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                <i className="ni ni-user-run" />
-                <span>Sair</span>
-              </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
@@ -166,17 +162,17 @@ const Sidebar = (props) => {
             </InputGroup>
           </Form>
           <Nav navbar>
-          {createLinks(routes)}
-          <NavItem key="logout" className="mx-5 mt-3">
-            <Button
-              className="btn btn-link border"
-              onClick={toggleLogoutModal}
-            >
-              <i className="ni ni-user-run mr-2" />
-              Sair
-            </Button>
-          </NavItem>
-        </Nav>
+            {createLinks(routes)}
+            <NavItem key="logout" className="mx-5 mt-3">
+              <Button
+                className="btn btn-link border"
+                onClick={toggleLogoutModal}
+              >
+                <i className="ni ni-user-run mr-2" />
+                Sair
+              </Button>
+            </NavItem>
+          </Nav>
         </Collapse>
       </Container>
       <Logout isOpen={isLogoutModalOpen} toggle={toggleLogoutModal} />

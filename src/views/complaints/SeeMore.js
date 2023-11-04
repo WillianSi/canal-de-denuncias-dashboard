@@ -82,22 +82,29 @@ const SeeMore = () => {
           <Col className="order-xl-1" xl="12">
             <Card className="bg-secondary shadow">
               <CardHeader className="bg-white border-0">
-                <Row className="border-0 d-flex justify-content-between ">
-                  <Col xs="8">
-                    <h2 className=" text-dark  px-4">
-                      Informação do incidente: {incidentData?.referencia}
-                    </h2>
-                  </Col>
-                  <Button color="info" href="#pablo" onClick={toggleModal}>
-                    Avaliar
-                  </Button>
-                  <AvaliarCaso
-                    isOpen={isModalOpen}
-                    onClose={toggleModal}
-                    id={id}
-                    fetchIncidentData={fetchIncidentData}
-                  />
-                </Row>
+              <Row className="d-flex justify-content-between align-items-center">
+      <Col xs="8">
+        <h2 className="text-dark px-4">
+          Informação do incidente: {incidentData?.referencia}
+        </h2>
+      </Col>
+      <div className="d-flex align-items-center">
+        <Button
+          color="info"
+          href="#pablo"
+          onClick={toggleModal}
+          style={{ maxWidth: "100%", whiteSpace: "normal" }}
+        >
+          Avaliar
+        </Button>
+        <AvaliarCaso
+          isOpen={isModalOpen}
+          onClose={toggleModal}
+          id={id}
+          fetchIncidentData={fetchIncidentData}
+        />
+      </div>
+    </Row>
               </CardHeader>
               <CardBody>
                 <Form>
