@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Auth from "layouts/Auth.js";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "services/firebaseConfig";
+import logoImg from '../../assets/img/brand/logo.png';
 import {
   Alert,
   Button,
@@ -29,6 +30,12 @@ const PasswordReset = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [alertColor, setAlertColor] = useState("");
   const [alertTitle, setAlertTitle] = useState("");
+
+  const imageStyle = {
+    maxWidth: "60%",
+    maxHeight: "100px",
+    marginBottom: "20px",
+  };
 
   const showErrorMessage = (message) => {
     setErrorMessage(message);
@@ -68,6 +75,7 @@ const PasswordReset = () => {
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent">
             <div className="header-body text-center">
+            <img src={logoImg} alt="Logo" style={imageStyle} />
               <h1 className="text-muted">Esqueceu sua senha?</h1>
               <p className="text-muted"> Insira o seu email cadastrado para redefinir sua senha!</p>
               {showAlert && (

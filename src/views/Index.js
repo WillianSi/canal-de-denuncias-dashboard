@@ -66,9 +66,15 @@ const Index = (props) => {
         };
         questionsData.push(questionData);
       });
-      questionsData.sort((a, b) => b.data_criacao - a.data_criacao);
+  
+      questionsData.sort((a, b) => {
+        const dateA = new Date(a.data_criacao);
+        const dateB = new Date(b.data_criacao);
+        return dateB - dateA;
+      });
+  
       const limitedQuestions = questionsData.slice(0, 5);
-
+  
       setQuestions(limitedQuestions);
     });
 

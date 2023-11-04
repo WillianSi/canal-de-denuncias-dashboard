@@ -4,6 +4,7 @@ import { auth } from "services/firebaseConfig";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import Auth from "layouts/Auth.js";
 import AuthenticatedLayout from "services/AuthenticatedLayout.js";
+import logoImg from '../../assets/img/brand/logo.png';
 import {
   Alert,
   Button,
@@ -35,6 +36,12 @@ const Register = () => {
   const [alertColor, setAlertColor] = useState("");
   const [alertTitle, setAlertTitle] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const imageStyle = {
+    maxWidth: "60%",
+    maxHeight: "100px",
+    marginBottom: "15px",
+  };
 
   const showErrorMessage = (message) => {
     setErrorMessage(message);
@@ -103,6 +110,7 @@ const Register = () => {
           <Card className="bg-secondary shadow border-0">
             <CardHeader className="bg-transparent">
               <div className="header-body text-center">
+              <img src={logoImg} alt="Logo" style={imageStyle} />
                 <h1 className="text-muted">Bem-vindo(a)!</h1>
                 <p className="text-muted">Crie uma conta para continuar!</p>
                 {showAlert && (
@@ -112,7 +120,7 @@ const Register = () => {
                 )}
               </div>
             </CardHeader>
-            <CardBody className="px-lg-5 py-lg-5">
+            <CardBody className="px-lg-5 py-lg-3">
               <Form role="form">
                 <FormGroup className="mb-3">
                   <InputGroup className="input-group-alternative">

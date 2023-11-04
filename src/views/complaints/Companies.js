@@ -71,8 +71,15 @@ const Companies = (props) => {
         };
         questionsData.push(questionData);
       });
+  
+      questionsData.sort((a, b) => {
+        const dateA = new Date(a.data_criacao);
+        const dateB = new Date(b.data_criacao);
+        return dateB - dateA;
+      });
+  
       setQuestions(questionsData);
-    });
+    });  
 
     return () => {
       unsubscribe();
