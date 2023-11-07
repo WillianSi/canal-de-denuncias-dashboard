@@ -96,16 +96,16 @@ const Index = (props) => {
               <CardHeader className="border-0 d-flex justify-content-between align-items-center">
                 <h3 className="mb-0">Últimos Incidentes</h3>
                 <Button
-                  color="info"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                  style={{ whiteSpace: "nowrap" }}
-                >
-                  Acesse o Canal{" "}
-                  <BsChevronCompactRight
-                    style={{ color: "#fff", fontSize: "13px" }}
-                  />
-                </Button>
+    color="info"
+    href="https://canal-de-denucia-williansi.vercel.app/"
+    target="_blank"
+    style={{ whiteSpace: "nowrap" }}
+  >
+    Acesse o Canal{" "}
+    <BsChevronCompactRight
+      style={{ color: "#fff", fontSize: "13px" }}
+    />
+  </Button>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="text-center thead-light">
