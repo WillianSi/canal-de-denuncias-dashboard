@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Alert, Modal, Button, Form, Input, FormGroup } from "reactstrap";
+import {
+  Alert,
+  Modal,
+  Button,
+  Form,
+  Input,
+  FormGroup,
+  Label,
+} from "reactstrap";
 import {
   getFirestore,
   collection,
@@ -14,6 +22,7 @@ const FromQuestions = (props) => {
   const [titulo, setTitulo] = useState("");
   const [questoes, setQuestoes] = useState("");
   const [tipoSelecionado, setTipoSelecionado] = useState("");
+  const [isMandatory, setIsMandatory] = useState(false); // New state for checkbox
 
   const [mostrarCamposQuestao, setMostrarCamposQuestao] = useState(false);
 
@@ -36,12 +45,14 @@ const FromQuestions = (props) => {
       setMostrarCamposQuestao(
         props.question.tipo === "Dropdown" && !!props.question.questoes
       );
+      setIsMandatory(!!props.question.validation); // Set the checkbox state
     } else {
       // Se não estamos editando, limpe os campos
       setTitulo("");
       setQuestoes("");
       setTipoSelecionado("");
       setMostrarCamposQuestao(false);
+      setIsMandatory(false); // Reset the checkbox state
     }
   }, [isEditing, props.question]);
 
@@ -61,6 +72,11 @@ const FromQuestions = (props) => {
     setMostrarCamposQuestao(novoTipo === "Dropdown");
   };
 
+  // Update the checkbox state
+  const handleMandatoryChange = () => {
+    setIsMandatory(!isMandatory);
+  };
+
   const handleSave = async () => {
     if (!titulo || !tipoSelecionado) {
       handleAlert("Preencha todos os campos obrigatórios.", "danger", "Erro");
@@ -78,6 +94,7 @@ const FromQuestions = (props) => {
         tipoSelecionado === "Dropdown"
           ? questoes.split("\n").map((questao) => questao.trim())
           : [],
+      validation: isMandatory, // Add the checkbox value to the form data
     };
 
     try {
@@ -91,6 +108,7 @@ const FromQuestions = (props) => {
         setTitulo("");
         setTipoSelecionado("");
         setQuestoes("");
+        setIsMandatory(false); // Reset the checkbox state
         handleAlert("Pergunta salva com sucesso.", "success", "Salvo!");
       }
     } catch (error) {
@@ -101,77 +119,92 @@ const FromQuestions = (props) => {
   return (
     <Modal isOpen={props.isOpen}>
       <AuthenticatedLayout>
-      <div className="modal-header">
-        <h2 className="modal-title text-black">
-          {isEditing ? "Editar Pregunta" : "Adicionar Pregunta"}
-        </h2>
-        <button className="close" onClick={props.onClose}>
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <div className="modal-body">
-        <Form>
-          {showAlert && (
-            <Alert color={alertColor}>
-              <strong>{alertTitle}</strong> {errorMessage}
-            </Alert>
-          )}
-          <FormGroup>
-            <label className="form-control-label text-black" htmlFor="input-text">
-              Titulo
-            </label>
-            <Input
-              className="form-control-alternative text-black"
-              id="input-text"
-              placeholder="exemplo: Qual a sua relação com o Grupo?"
-              type="text"
-              value={titulo}
-              onChange={(e) => setTitulo(e.target.value)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <label className="form-control-label" htmlFor="select-dropdown">
-              Tipo
-            </label>
-            <select
-              className="form-control form-control-alternative"
-              id="select-dropdown"
-              name="tipo"
-              value={tipoSelecionado}
-              onChange={handleTipoChange}
-            >
-              <option value="">Selecione uma opção</option>
-              <option value="Dropdown">Dropdown</option>
-              <option value="Arquivo">Arquivo</option>
-              <option value="PerguntaAberta">Pergunta aberta</option>
-            </select>
-          </FormGroup>
-
-          {mostrarCamposQuestao && tipoSelecionado === "Dropdown" && (
+        <div className="modal-header">
+          <h2 className="modal-title text-black">
+            {isEditing ? "Editar Pregunta" : "Adicionar Pregunta"}
+          </h2>
+          <button className="close" onClick={props.onClose}>
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div className="modal-body">
+          <Form>
+            {showAlert && (
+              <Alert color={alertColor}>
+                <strong>{alertTitle}</strong> {errorMessage}
+              </Alert>
+            )}
             <FormGroup>
-              <label className="form-control-label" htmlFor="input-questoes">
-                Questões do Dropdown
+              <label
+                className="form-control-label text-black"
+                htmlFor="input-text"
+              >
+                Titulo
               </label>
-              <textarea
-                className="form-control form-control-alternative"
-                id="input-questoes"
-                name="questoes"
-                placeholder="Cada linha representa uma pergunta..."
-                value={questoes}
-                onChange={(e) => setQuestoes(e.target.value)}
+              <Input
+                className="form-control-alternative text-black"
+                id="input-text"
+                placeholder="exemplo: Qual a sua relação com o Grupo?"
+                type="text"
+                value={titulo}
+                onChange={(e) => setTitulo(e.target.value)}
               />
             </FormGroup>
-          )}
-        </Form>
-      </div>
-      <div className="modal-footer">
-        <Button color="success" onClick={handleSave}>
-          Salvar
-        </Button>
-        <Button color="danger" onClick={props.onClose}>
-          Fechar
-        </Button>
-      </div>
+            <FormGroup>
+              <label className="form-control-label" htmlFor="select-dropdown">
+                Tipo
+              </label>
+              <select
+                className="form-control form-control-alternative"
+                id="select-dropdown"
+                name="tipo"
+                value={tipoSelecionado}
+                onChange={handleTipoChange}
+              >
+                <option value="">Selecione uma opção</option>
+                <option value="Dropdown">Dropdown</option>
+                <option value="Arquivo">Arquivo</option>
+                <option value="PerguntaAberta">Pergunta aberta</option>
+              </select>
+            </FormGroup>
+
+            {mostrarCamposQuestao && tipoSelecionado === "Dropdown" && (
+              <FormGroup>
+                <label className="form-control-label" htmlFor="input-questoes">
+                  Questões do Dropdown
+                </label>
+                <textarea
+                  className="form-control form-control-alternative"
+                  id="input-questoes"
+                  name="questoes"
+                  placeholder="Cada linha representa uma pergunta..."
+                  value={questoes}
+                  onChange={(e) => setQuestoes(e.target.value)}
+                />
+              </FormGroup>
+            )}
+
+            <FormGroup check style={{ marginBottom: "10px" }}>
+              <Label check>
+                <Input
+                  type="checkbox"
+                  id="mandatoryCheckbox"
+                  checked={isMandatory}
+                  onChange={handleMandatoryChange}
+                />{" "}
+                Campo Obrigatório
+              </Label>
+            </FormGroup>
+          </Form>
+        </div>
+        <div className="modal-footer">
+          <Button color="success" onClick={handleSave}>
+            Salvar
+          </Button>
+          <Button color="danger" onClick={props.onClose}>
+            Fechar
+          </Button>
+        </div>
       </AuthenticatedLayout>
     </Modal>
   );

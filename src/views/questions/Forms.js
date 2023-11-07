@@ -3,6 +3,7 @@ import Chart from "chart.js";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import {
   Alert,
+  Badge,
   Button,
   Col,
   Card,
@@ -109,87 +110,105 @@ const Forms = (props) => {
 
   return (
     <>
-    <AuthenticatedLayout>
-      <Header />
-      <Container className="mt--7" fluid>
-        <Row>
-          <div className="col">
-            <Card className="shadow">
-              <CardHeader className="border-0 d-flex justify-content-between align-items-center">
-                <h3 className="mb-0">Formulário</h3>
-                <Button color="info" onClick={() => toggleModal(null)}>
-                  Adicionar Pregunta +
-                </Button>
-              </CardHeader>
-              <Col xs="8">
-                {showAlert && (
-                  <Alert color={alertColor} className="mt-2">
-                    <strong>{alertTitle}</strong> {errorMessage}
-                  </Alert>
-                )}
-              </Col>
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="text-center thead-light">
-                  <tr>
-                    <th scope="col">Pergunta</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Ação</th>
-                  </tr>
-                </thead>
-                <tbody className="text-center">
-                  {questions.map((question, index) => (
-                    <tr key={index}>
-                      <td style={{ whiteSpace: 'normal', textJustify: 'inter-word'}}>{question.titulo}</td>
-                      <td>{question.tipo}</td>
-                      <td className="text-center align-middle">
-                        <Button
-                          color="default"
-                          onClick={() => toggleEditModal(question)}
-                          size="sm"
-                          className="bg-transparent border-0"
-                        >
-                          <BsFillPencilFill
-                            style={{ color: "#525f7f", fontSize: "15px" }}
-                          />
-                        </Button>
-                        <Button
-                          color="default"
-                          onClick={() => {
-                            toggleExcluirModal(question.id);
-                          }}
-                          size="sm"
-                          className="bg-transparent border-0"
-                        >
-                          <BsFillTrashFill
-                            style={{ color: "#525f7f", fontSize: "15px" }}
-                          />
-                        </Button>
-                      </td>
+      <AuthenticatedLayout>
+        <Header />
+        <Container className="mt--7" fluid>
+          <Row>
+            <div className="col">
+              <Card className="shadow">
+                <CardHeader className="border-0 d-flex justify-content-between align-items-center">
+                  <h3 className="mb-0">Formulário</h3>
+                  <Button color="info" onClick={() => toggleModal(null)}>
+                    Adicionar Pregunta +
+                  </Button>
+                </CardHeader>
+                <Col xs="8">
+                  {showAlert && (
+                    <Alert color={alertColor} className="mt-2">
+                      <strong>{alertTitle}</strong> {errorMessage}
+                    </Alert>
+                  )}
+                </Col>
+                <Table className="align-items-center table-flush" responsive>
+                  <thead className="text-center thead-light">
+                    <tr>
+                      <th scope="col">Pergunta</th>
+                      <th scope="col">Tipo</th>
+                      <th scope="col">Ação</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Card>
-          </div>
-        </Row>
-      </Container>
-      <FromQuestions
-        isOpen={modalOpen}
-        onClose={() => toggleModal(null)}
-        question={selectedQuestion}
-      />
-      <FromQuestions
-        isOpen={editModalOpen}
-        onClose={() => toggleEditModal(null)}
-        question={selectedQuestion}
-        handleAlert={handleAlert}
-      />
-      <ExcluirQuestion
-        isOpen={excluirModalOpen}
-        toggle={toggleExcluirModal}
-        questionId={selectedQuestionId}
-        handleAlert={handleAlert}
-      />
+                  </thead>
+                  <tbody className="text-center">
+                    {questions.map((question, index) => (
+                      <tr key={index}>
+                        <td
+                          style={{
+                            whiteSpace: "normal",
+                            textJustify: "inter-word",
+                          }}
+                        >
+                          {question.titulo}
+                        </td>
+                        <td>
+                          {question.validation ? (
+                            <Badge color="danger" className="badge-dot ml-2">
+                              <i className="bg-danger" />
+                            </Badge>
+                          ) : (
+                            <Badge color="success" className="badge-dot ml-2">
+                              <i className="bg-success" />
+                            </Badge>
+                          )}
+                          {question.tipo}
+                        </td>
+                        <td className="text-center align-middle">
+                          <Button
+                            color="default"
+                            onClick={() => toggleEditModal(question)}
+                            size="sm"
+                            className="bg-transparent border-0"
+                          >
+                            <BsFillPencilFill
+                              style={{ color: "#525f7f", fontSize: "15px" }}
+                            />
+                          </Button>
+                          <Button
+                            color="default"
+                            onClick={() => {
+                              toggleExcluirModal(question.id);
+                            }}
+                            size="sm"
+                            className="bg-transparent border-0"
+                          >
+                            <BsFillTrashFill
+                              style={{ color: "#525f7f", fontSize: "15px" }}
+                            />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Card>
+            </div>
+          </Row>
+        </Container>
+        <FromQuestions
+          isOpen={modalOpen}
+          onClose={() => toggleModal(null)}
+          question={selectedQuestion}
+        />
+        <FromQuestions
+          isOpen={editModalOpen}
+          onClose={() => toggleEditModal(null)}
+          question={selectedQuestion}
+          handleAlert={handleAlert}
+        />
+        <ExcluirQuestion
+          isOpen={excluirModalOpen}
+          toggle={toggleExcluirModal}
+          questionId={selectedQuestionId}
+          handleAlert={handleAlert}
+        />
       </AuthenticatedLayout>
     </>
   );
