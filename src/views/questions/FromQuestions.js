@@ -22,7 +22,7 @@ const FromQuestions = (props) => {
   const [titulo, setTitulo] = useState("");
   const [questoes, setQuestoes] = useState("");
   const [tipoSelecionado, setTipoSelecionado] = useState("");
-  const [isMandatory, setIsMandatory] = useState(false); // New state for checkbox
+  const [isMandatory, setIsMandatory] = useState(true)
 
   const [mostrarCamposQuestao, setMostrarCamposQuestao] = useState(false);
 
@@ -31,12 +31,10 @@ const FromQuestions = (props) => {
   const [alertColor, setAlertColor] = useState("");
   const [alertTitle, setAlertTitle] = useState("");
 
-  // Verifica se estamos editando uma pergunta existente
   const isEditing = !!props.question;
 
   useEffect(() => {
     if (isEditing && props.question) {
-      // Preencha os campos com os dados da pergunta existente
       setTitulo(props.question.titulo || "");
       setTipoSelecionado(props.question.tipo || "");
       setQuestoes(
@@ -45,14 +43,13 @@ const FromQuestions = (props) => {
       setMostrarCamposQuestao(
         props.question.tipo === "Dropdown" && !!props.question.questoes
       );
-      setIsMandatory(!!props.question.validation); // Set the checkbox state
+      setIsMandatory(!!props.question.validation);
     } else {
-      // Se não estamos editando, limpe os campos
       setTitulo("");
       setQuestoes("");
       setTipoSelecionado("");
       setMostrarCamposQuestao(false);
-      setIsMandatory(false); // Reset the checkbox state
+      setIsMandatory(true);
     }
   }, [isEditing, props.question]);
 
@@ -94,7 +91,7 @@ const FromQuestions = (props) => {
         tipoSelecionado === "Dropdown"
           ? questoes.split("\n").map((questao) => questao.trim())
           : [],
-      validation: isMandatory, // Add the checkbox value to the form data
+      validation: isMandatory,
     };
 
     try {
@@ -108,7 +105,7 @@ const FromQuestions = (props) => {
         setTitulo("");
         setTipoSelecionado("");
         setQuestoes("");
-        setIsMandatory(false); // Reset the checkbox state
+        setIsMandatory(false);
         handleAlert("Pergunta salva com sucesso.", "success", "Salvo!");
       }
     } catch (error) {
