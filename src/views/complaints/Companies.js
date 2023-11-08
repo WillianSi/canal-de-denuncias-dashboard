@@ -110,8 +110,8 @@ const Companies = (props) => {
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText
                           style={{
-                            backgroundColor: "#11cdef",
-                            borderColor: "#11cdef",
+                            backgroundColor: "#8965e0",
+                            borderColor: "#8965e0",
                           }}
                         >
                           <i
@@ -122,7 +122,7 @@ const Companies = (props) => {
                       </InputGroupAddon>
                       <Input
                         type="text"
-                        style={{ borderColor: "#11cdef", color: "black" }}
+                        style={{ borderColor: "#8965e0", color: "black" }}
                         className="placeholder-black"
                         value={searchValue}
                         onChange={handleSearchChange}

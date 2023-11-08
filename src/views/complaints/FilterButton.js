@@ -16,7 +16,7 @@ const FilterButton = ({ handleStatusChange }) => {
   return (
     <UncontrolledDropdown nav>
       <DropdownToggle className="pr-0" nav onClick={toggleDropdown}>
-        <span className="btn btn-info">Filtrar por Status</span>
+        <span className="btn btn-default">Filtrar por Status</span>
       </DropdownToggle>
       <DropdownMenu right>
         <DropdownItem onClick={() => handleStatusChange(null)}>Todos</DropdownItem>

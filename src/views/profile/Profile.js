@@ -179,7 +179,7 @@ const Profile = () => {
                           </FormGroup>
                         </Col>
                       </Row>
-                      <Button color="info" onClick={handleEmail}>
+                      <Button color="default" onClick={handleEmail}>
                         Mudar email
                       </Button>
                     </div>
@@ -245,7 +245,7 @@ const Profile = () => {
                           </FormGroup>
                         </Col>
                       </Row>
-                      <Button color="info" onClick={handlePassword}>
+                      <Button color="default" onClick={handlePassword}>
                         Mudar senha
                       </Button>
                     </div>

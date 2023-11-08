@@ -90,7 +90,7 @@ const SeeMore = () => {
       </Col>
       <div className="d-flex align-items-center">
         <Button
-          color="info"
+          color="default"
           href="#pablo"
           onClick={toggleModal}
           style={{ maxWidth: "100%", whiteSpace: "normal" }}

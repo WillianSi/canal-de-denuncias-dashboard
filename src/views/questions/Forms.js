@@ -118,8 +118,8 @@ const Forms = (props) => {
               <Card className="shadow">
                 <CardHeader className="border-0 d-flex justify-content-between align-items-center">
                   <h3 className="mb-0">Formulário</h3>
-                  <Button color="info" onClick={() => toggleModal(null)}>
-                    Adicionar Pregunta +
+                  <Button color="default" onClick={() => toggleModal(null)}>
+                    Adicionar +
                   </Button>
                 </CardHeader>
                 <Col xs="8">
