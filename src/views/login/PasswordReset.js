@@ -106,7 +106,7 @@ const PasswordReset = () => {
               <div className="text-center">
                 <Button
                   className="my-3"
-                  color="primary"
+                  color="default"
                   type="button"
                   onClick={resetPassword}
                 >

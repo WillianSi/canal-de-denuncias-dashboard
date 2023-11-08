@@ -88,7 +88,7 @@ const Register = () => {
 
   useEffect(() => {
     if (loading) {
-      setAlertColor("info");
+      setAlertColor("default");
       setAlertTitle("Aguarde:");
       showErrorMessage("Criando conta...");
     }
@@ -180,7 +180,7 @@ const Register = () => {
                 <div className="text-center">
                   <Button
                     className="my-3"
-                    color="primary"
+                    color="default"
                     type="button"
                     onClick={handleSignIn}
                   >

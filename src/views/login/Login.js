@@ -76,7 +76,7 @@ const Login = () => {
 
   useEffect(() => {
     if (loading) {
-      setAlertColor("info");
+      setAlertColor("default");
       setAlertTitle("Aguarde:");
       showErrorMessage("Conectando...");
     }
@@ -143,7 +143,7 @@ const Login = () => {
                 <div className="text-center">
                   <Button
                     className="my-3"
-                    color="primary"
+                    color="default"
                     type="button"
                     onClick={handleSignIn}
                   >
