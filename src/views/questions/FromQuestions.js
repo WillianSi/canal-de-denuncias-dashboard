@@ -105,7 +105,7 @@ const FromQuestions = (props) => {
         setTitulo("");
         setTipoSelecionado("");
         setQuestoes("");
-        setIsMandatory(false);
+        setIsMandatory(true);
         handleAlert("Pergunta salva com sucesso.", "success", "Salvo!");
       }
     } catch (error) {
